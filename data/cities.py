@@ -1,5 +1,5 @@
 CITIES = {
-    "Mumbai" : {
+    "mumbai" : {
     "name": "Mumbai",
     "state": "Maharashtra",
     "type": "metro",
@@ -45,7 +45,7 @@ CITIES = {
         "Use the Mumbai Metro and the Bandra-Worli Sea Link wherever possible to bypass the city's notorious peak-hour traffic jams."
     ]
 },
-    "Banglore" : {
+    "bangalore" : {
     "name": "Bengaluru",
     "state": "Karnataka",
     "type": "metro",
@@ -91,7 +91,7 @@ CITIES = {
         "If you want a quick escape from city life, take an early morning drive (~1.5 hours) to Nandi Hills to watch the sunrise above the cloud line."
     ]
 },
-    "Chennai" : {
+    "chennai" : {
     "name": "Chennai",
     "state": "Tamil Nadu",
     "type": "cultural",
@@ -137,7 +137,7 @@ CITIES = {
         "Try an authentic breakfast of idli, vada, and sambar at local chains like Saravana Bhavan or Ratna Cafe, and always wash it down with traditional South Indian filter coffee."
     ]
 },
-    "Delhi" : {
+    "delhi" : {
     "name": "Delhi",
     "state": "Delhi (NCT)",
     "type": "metro",
@@ -183,7 +183,7 @@ CITIES = {
         "Pace yourself when sampling the legendary street food (like Chole Bhature or Chaat) to prevent 'Delhi belly'; look for stalls with high local foot traffic and good turnover."
     ]
 }, 
-    "Kolkata" : {
+    "kolkata" : {
     "name": "Kolkata",
     "state": "West Bengal",
     "type": "cultural",

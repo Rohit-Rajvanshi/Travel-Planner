@@ -1,0 +1,36 @@
+# --- System Files ---
+.DS_Store
+Thumbs.db
+*.log
+
+# --- Node / JavaScript / TypeScript ---
+node_modules/
+dist/
+build/
+.npm
+.eslintcache
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv
+env/
+venv/
+.pytest_cache/
+
+# --- C / C++ ---
+*.o
+*.obj
+*.out
+*.exe
+
+# --- IDEs and Editors ---
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

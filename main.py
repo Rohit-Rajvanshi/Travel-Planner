@@ -1,8 +1,9 @@
 from openai import OpenAI
 import gradio as gr 
 from dotenv import load_dotenv
-from tools import get_destination_info , get_travel_info , recommend_food , build_itinerary , tools
+from tools import get_destination_info , get_travel_info , recommend_food , build_itinerary , tools 
 import json
+import base64
 
 load_dotenv()
 
@@ -61,29 +62,71 @@ When listing your available cities, briefly describe each (one phrase per city) 
 
 """
 
+image_system_prompt = """
+You are a helpful Indian Travel Assistant named TravelIND.
+
+IF THE IMAGE IS A PLACE THAT U DONT RECOGNISE OR IF ITS NOT A PHOTO RELATED TO TRAVEL , let the user know about it in one sentence and request for a photo that is related to travelling.
+
+"""
+
 def chat(message , history):
-    history = [{"role" : h["role"] , "content" : h["content"]} for h in history]
-    messages = [{"role": "system", "content" : system_prompt}] + history + [{"role" : "user" , "content" : message}]
-    response = openai.chat.completions.create(
-        model = model , 
-        messages = messages,
-        tools = tools,
-    )
-    while response.choices[0].finish_reason == "tool_calls" :
-        message = response.choices[0].message
-        responses = handle_tool_calls(message)
-        messages.append(message)
-        messages.extend(responses)
+    files = message["files"]
+    text = message["text"]
+
+    if files:
+        image_path = files[0]
+        return analyze_travel_image(image_path , text)
+
+
+    elif text: 
+        history = [{"role" : h["role"] , "content" : str(h["content"])}  for h in history]
+        print(history)
+        messages = [{"role": "system", "content" : system_prompt}] + history + [{"role" : "user" , "content" : text}]
         response = openai.chat.completions.create(
-            model = model ,
-            messages = messages, 
-            tools = tools ,
+            model = model , 
+            messages = messages,
+            tools = tools,
         )
+        while response.choices[0].finish_reason == "tool_calls" :
+            message = response.choices[0].message
+            responses = handle_tool_calls(message)
+            messages.append(message)
+            messages.extend(responses)
+            response = openai.chat.completions.create(
+                model = model ,
+                messages = messages, 
+                tools = tools ,
+            )
+
+        return response.choices[0].message.content
+
+def analyze_travel_image(image_path , text):
+    if not text:
+        text = "What place is this , tell me more about it"
+    
+    with open(image_path, "rb") as image_file:
+        image = base64.b64encode(image_file.read()).decode("utf-8")
+
+    response = openai.chat.completions.create(
+        model = model,
+        messages = [
+            {"role" : "system" , "content" : image_system_prompt},
+            {"role" : "user" , 
+            "content" : [
+                    {"type" : "text" ,
+                    "text" : text},
+                    {"type" : "image_url",
+                    "image_url": {
+                        "url" : f"data:image/jpeg;base64,{image}"
+                        }
+                    }
+                ]
+            }
+        ]
+
+    )
 
     return response.choices[0].message.content
-
-
-
 
 
 

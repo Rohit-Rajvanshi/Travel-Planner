@@ -26,7 +26,11 @@ def build_itinerary (city , days , budget):
     print(f"tool called for city: {city}")
     return ({"days" : days , "budget" : budget , "city_info" : get_destination_info(city) , "food_info" : recommend_food(city)})
 
- 
+
+
+
+
+
 
 tools = [
     {
